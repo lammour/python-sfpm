@@ -1,0 +1,13 @@
+# Environnement virtuel Python
+.venv/
+
+# Fichiers compilés Python
+__pycache__/
+*.pyc
+
+# Images DICOM (volumineuses, à télécharger séparément)
+images/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
