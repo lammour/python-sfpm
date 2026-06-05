@@ -241,8 +241,10 @@ Les images DICOM de fantôme eau ne sont pas incluses dans le dépôt Git (fichi
 
 ### Téléchargement
 
-Télécharger l'archive d'images de référence et la décompresser.
-Le contenu doit être placé dans un dossier `images/` à la racine du projet :
+Télécharger l'archive officielle de l'ANSM :
+**https://ansm.sante.fr/uploads/2025/12/29/20251229-controle-scanographie-banque-images-reference.zip**
+
+Décompresser l'archive et placer son contenu dans un dossier `images/` à la racine du projet :
 
 ```
 python-sfpm/
