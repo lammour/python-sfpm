@@ -13,8 +13,7 @@ from scipy import ndimage
 
 from dicom_loader import SerieDicom, SliceDicom
 
-# Extension au-delà de la fréquence de Nyquist pour capturer les coins
-# diagonaux de la NPS 2D (valeur de référence iQMetrix)
+# Extension au-delà de la fréquence de Nyquist pour capturer les coins diagonaux de la NPS 2D
 EXTENSION_NYQUIST = 1.375
 
 
@@ -168,7 +167,7 @@ def detrender_roi(roi: np.ndarray) -> np.ndarray:
     y_flat = Y.flatten()
     z_flat = roi.flatten()
 
-    # Matrice de design : 6 termes du polynôme 2D d'ordre 2
+    # Design matrix : 6 termes du polynôme 2D d'ordre 2
     # (1, x, y, x², y², xy)
     matrice_design = np.column_stack([
         np.ones_like(x_flat),
@@ -191,9 +190,7 @@ def detrender_roi(roi: np.ndarray) -> np.ndarray:
 
 def calculer_nps_2d(roi: np.ndarray, taille_pixel_mm: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
-    Calcule la NPS 2D par FFT 2D (normalisation NPWE3 / iQMetrix).
-
-    Pas de fenêtrage appliqué (conforme à la référence ANSM).
+    Calcule la NPS 2D par FFT 2D.
 
     Returns:
         (nps_2d, freq_x, freq_y) avec fréquences en cycles/mm
@@ -256,7 +253,7 @@ def moyenne_radiale(
 
 def lisser_nps_polynome(frequences: np.ndarray, nps: np.ndarray, degre: int = 11) -> np.ndarray:
     """
-    Ajuste un polynôme de degré 11 sur la courbe NPS brute (standard ANSM).
+    Ajuste un polynôme de degré 11 sur la courbe NPS brute.
 
     Returns:
         Valeurs NPS ajustées, forcées à zéro si négatives (la puissance est toujours positive)
@@ -323,7 +320,7 @@ def analyser_nps(
     taille_pixel_mm = coupe_mediane.pixel_size_mm
     positions = calculer_positions_roi(coupe_mediane, centre, taille_roi)
 
-    # Axes fréquentiels — identiques pour toutes les ROIs (même taille, même pixel)
+    # Axes fréquentiels identiques pour toutes les ROIs (même taille, même pixel)
     freq_x = np.fft.fftshift(np.fft.fftfreq(taille_roi)) / taille_pixel_mm
     freq_y = freq_x.copy()
 
