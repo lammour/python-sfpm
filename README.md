@@ -7,7 +7,7 @@ sur des images scanner DICOM.
 Il ne s'agit pas d'un tutoriel pour apprendre à programmer avec Python.
 
 Le tutoriel est écrit pour Windows 10/11 car ces systèmes d'exploitation sont très largement majoritaires en milieu hospitalier.
-Cependant, si vous accès à un ordinateur sous GNU/Linux ou MacOS, il est raisonnablement possible de suivre le tutoriel avec quelques ajustements mineurs qui ne seront pas décris.
+Cependant, si vous avez accès à un ordinateur sous GNU/Linux ou MacOS, il est raisonnablement possible de suivre le tutoriel avec quelques ajustements mineurs qui ne seront pas décrits.
 
 ---
 
@@ -36,7 +36,7 @@ la NPS selon le protocole de la décision ANSM du 18/12/2025.
 
 **Étapes du calcul :**
 1. Détection automatique du centre du fantôme
-2. Positionnement de 8 ROIs en motif octogonal sur 10 coupes autour la coupe centrale
+2. Positionnement de 8 ROIs en motif octogonal sur 10 coupes autour de la coupe centrale
 3. Calcul de la NPS 2D par FFT pour chaque ROI
 4. Calcul de la NPS 1D par moyenne radiale
 5. Ajustement par polynôme de degré 11
@@ -85,7 +85,7 @@ Python est le langage de programmation utilisé par ce projet.
 
 ## 3. Installer VS Code
 
-Même s'il est possible de s'en passer, il est conseillé d'utiliser un logiciel dédié éditer le code source (IDE).
+Même s'il est possible de s'en passer, il est conseillé d'utiliser un logiciel dédié à éditer le code source (IDE).
 VS Code (Visual Studio Code) ou encore PyCharm sont des IDE populaires pour Python. Ici nous installerons VS Code, mais il est encouragé de chercher l'environnement le plus adapté à chacun.
 
 ### Téléchargement et installation
@@ -245,7 +245,7 @@ Télécharger l'archive officielle de l'ANSM :
 Décompresser l'archive et placer son contenu dans un dossier `images/` à la racine du projet :
 
 ```
-python-sfpm/
+webinaire-sfpm-python-imagerie-2026-06-09/
 ├── images/
 │   ├── Serie_1/
 │   │   └── S1/
@@ -298,7 +298,7 @@ La barre de statut affiche les informations du scanner (constructeur, kV, mA, no
 Après quelques secondes :
 - Les 8 ROIs apparaissent en vert sur l'image CT
 - La courbe NPS s'affiche à droite (courbe bleue claire = NPS brut, bleue foncée = NPS lissé)
-- La ligne orange verticale indique la fréquence centroïde f̄
+- La ligne orange verticale indique la fréquence moyenne f̄
 - La barre de statut affiche f̄ et le NPS moyen
 
 ---
