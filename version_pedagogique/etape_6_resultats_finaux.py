@@ -97,7 +97,7 @@ def moyenne_radiale(nps_2d, pixel_mm):
     centre   = n // 2
     r_vals   = np.linspace(0, int(n // 2 * 1.375), nb_pts)
     profils  = []
-    for angle_deg in range(0, 361, 10):
+    for angle_deg in range(0, 360, 10):
         theta  = np.deg2rad(angle_deg)
         coords = np.array([centre + r_vals * np.sin(theta),
                            centre + r_vals * np.cos(theta)])

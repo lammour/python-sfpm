@@ -217,9 +217,9 @@ def moyenne_radiale(
     Calcule la NPS 1D par moyenne radiale angulaire.
 
     Méthode iQMetrix :
-    - 37 profils angulaires de 0° à 360° (pas 10°)
+    - 36 profils angulaires de 0° à 350° (pas 10°)
     - Interpolation bilinéaire le long de chaque profil
-    - Moyenne des 37 profils → courbe NPS 1D
+    - Moyenne des 36 profils → courbe NPS 1D
 
     Returns:
         (nps_radial, frequences_radial) avec fréquences en cycles/mm
@@ -233,7 +233,7 @@ def moyenne_radiale(
     centre = n // 2
     r_pixels = int(n // 2 * EXTENSION_NYQUIST)
 
-    angles_rad = np.deg2rad(np.arange(0, 361, 10))  # 37 angles de 0° à 360°
+    angles_rad = np.deg2rad(np.arange(0, 360, 10))  # 36 angles de 0° à 350°
 
     # r_vals est identique pour tous les angles — calculé une seule fois
     r_vals = np.linspace(0, r_pixels, nb_points)

@@ -5,8 +5,8 @@ On répète le calcul de l'étape 4 sur les 10 coupes centrales × 8 ROIs,
 on accumule les NPS 2D, puis on les moyenne.
 
 La NPS 2D obtenue doit être isotrope (symétrie radiale) pour un fantôme eau.
-On en extrait la NPS 1D par moyenne radiale : on trace 37 profils angulaires
-(de 0° à 360°, tous les 10°) et on fait la moyenne.
+On en extrait la NPS 1D par moyenne radiale : on trace 36 profils angulaires
+(de 0° à 350°, tous les 10°) et on fait la moyenne.
 
 Usage :
     python etape_5_nps_1d.py chemin/vers/dossier/dicom
@@ -87,20 +87,20 @@ def nps_2d_roi(roi, pixel_mm):
 
 def moyenne_radiale(nps_2d, pixel_mm):
     """
-    Trace 37 profils radiaux (0° à 360°, pas 10°) sur la NPS 2D
+    Trace 36 profils radiaux (0° à 350°, pas 10°) sur la NPS 2D
     et retourne leur moyenne → NPS 1D.
     """
     n       = nps_2d.shape[0]
     nyquist = 1.0 / (2.0 * pixel_mm)
-    freq_max = nyquist * 1.375
-    nb_pts   = int(n // 2 * 1.375) + 1
+    freq_max = nyquist * 1.365
+    nb_pts   = int(n // 2 * 1.365) + 1
     freq_r   = np.linspace(0, freq_max, nb_pts)
     centre   = n // 2
-    r_max    = int(n // 2 * 1.375)
+    r_max    = int(n // 2 * 1.365)
     r_vals   = np.linspace(0, r_max, nb_pts)
 
     profils = []
-    for angle_deg in range(0, 361, 10):
+    for angle_deg in range(0, 360, 10):  # 36 angles
         theta = np.deg2rad(angle_deg)
         coords = np.array([
             centre + r_vals * np.sin(theta),
@@ -153,7 +153,7 @@ print()
 print("── NPS 1D brute ───────────────────────────────")
 print(f"  Nombre de points fréquentiels : {len(frequences)}")
 print(f"  Fréquence max                 : {frequences[-1]:.3f} cycles/mm")
-print(f"  (Nyquist = {1/(2*pixel_mm):.3f} cycles/mm, étendu × 1.375)")
+print(f"  (Nyquist = {1/(2*pixel_mm):.3f} cycles/mm, étendu × 1.365)")
 print("───────────────────────────────────────────────")
 
 # Visualisation : NPS 2D + quelques profils radiaux + NPS 1D
@@ -169,7 +169,7 @@ axes[0].set_xlabel("fx (cy/mm)")
 axes[0].set_ylabel("fy (cy/mm)")
 
 # Quelques profils radiaux sur la NPS 2D
-r_vals_pix = np.linspace(0, int(taille_roi // 2 * 1.375), len(frequences))
+r_vals_pix = np.linspace(0, int(taille_roi // 2 * 1.365), len(frequences))
 centre = taille_roi // 2
 axes[1].imshow(nps_2d_moy, cmap="hot")
 for angle_deg in range(0, 360, 45):   # 8 profils illustratifs
@@ -177,14 +177,14 @@ for angle_deg in range(0, 360, 45):   # 8 profils illustratifs
     l_end = centre + r_vals_pix[-1] * np.sin(theta)
     c_end = centre + r_vals_pix[-1] * np.cos(theta)
     axes[1].plot([centre, c_end], [centre, l_end], "c-", linewidth=0.8, alpha=0.8)
-axes[1].set_title("37 profils radiaux\n(8 illustrés en cyan)")
+axes[1].set_title("36 profils radiaux\n(8 illustrés en cyan)")
 axes[1].axis("off")
 
 # NPS 1D brute
 axes[2].plot(frequences, nps_brut, color="steelblue", linewidth=1.5)
 axes[2].set_xlabel("Fréquence (cycles/mm)")
 axes[2].set_ylabel("NPS (mm²)")
-axes[2].set_title("NPS 1D brute\n(moyenne des 37 profils)")
+axes[2].set_title("NPS 1D brute\n(moyenne des 36 profils)")
 axes[2].grid(True, alpha=0.3)
 axes[2].axvline(1 / (2 * pixel_mm), color="orange", linestyle="--",
                 linewidth=1, label=f"Nyquist = {1/(2*pixel_mm):.2f} cy/mm")
