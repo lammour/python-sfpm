@@ -1,11 +1,13 @@
-# Mesure NPS en Python — Tutoriel complet
+# Webinaire SFPM : Utilisation de Python en imagerie médicale
 
-Ce tutoriel accompagne le webinaire **"Python pour les physiciens médicaux"**.
-Il explique pas à pas comment installer tous les outils nécessaires et faire tourner
-le logiciel de mesure de la **NPS (Noise Power Spectrum / Spectre de Puissance du Bruit)**
+Ce tutoriel accompagne le webinaire **"Utilisation de Python en imagerie médicale"** organisé par la section imagerie de la SFPM.
+Il explique pas à pas comment installer tous les outils nécessaires et exécuter un logiciel de mesure de la NPS (Noise Power Spectrum / Spectre de Puissance du Bruit)
 sur des images scanner DICOM.
 
-Aucune connaissance préalable en programmation n'est nécessaire.
+Il ne s'agit pas d'un tutoriel pour apprendre à programmer avec Python.
+
+Le tutoriel est écrit pour Windows 10/11 car ces systèmes d'exploitation sont très largement majoritaires en milieu hospitalier.
+Cependant, si vous accès à un ordinateur sous GNU/Linux ou MacOS, il est raisonnablement possible de suivre le tutoriel avec quelques ajustements mineurs qui ne seront pas décris.
 
 ---
 
@@ -33,11 +35,11 @@ la NPS selon le protocole de la décision ANSM du 18/12/2025.
 
 **Étapes du calcul :**
 1. Détection automatique du centre du fantôme
-2. Positionnement de 8 ROIs en motif octogonal
+2. Positionnement de 8 ROIs en motif octogonal sur 10 coupes autour la coupe centrale
 3. Calcul de la NPS 2D par FFT pour chaque ROI
-4. Moyenne radiale → courbe NPS 1D
+4. Calcul de la NPS 1D par moyenne radiale
 5. Ajustement par polynôme de degré 11
-6. Calcul de la fréquence centroïde f̄
+6. Calcul de la fréquence moyenne f̄
 
 **Interface :**
 - Vue gauche : image CT avec les ROIs superposées en vert
@@ -53,11 +55,11 @@ Python est le langage de programmation utilisé par ce projet.
 ### Téléchargement
 
 1. Ouvrir un navigateur et aller sur **https://www.python.org/downloads/**
-2. Cliquer sur le bouton jaune **"Download Python 3.12.x"**
+2. Cliquer sur le bouton jaune **"Download Python 3.x.x"**
 
 ### Installation
 
-1. Ouvrir le fichier téléchargé (`python-3.12.x-amd64.exe`)
+1. Ouvrir le fichier téléchargé (par exemple `python-3.14.5-amd64.exe`)
 2. **Étape cruciale** : cocher la case **"Add python.exe to PATH"** en bas de la fenêtre
    avant de cliquer sur *Install Now*
 
@@ -74,7 +76,7 @@ Python est le langage de programmation utilisé par ce projet.
    ```
    python --version
    ```
-3. Le résultat doit afficher quelque chose comme `Python 3.12.x`
+3. Le résultat doit afficher quelque chose comme `Python 3.x.x` (selon la version installée)
 
    Si vous voyez un message d'erreur, relancer l'installeur en cochant bien la case PATH.
 
@@ -82,15 +84,14 @@ Python est le langage de programmation utilisé par ce projet.
 
 ## 3. Installer VS Code
 
-VS Code (Visual Studio Code) est l'éditeur de code que nous utilisons pour écrire et lire le code Python.
+Même s'il est possible de s'en passer, il est conseillé d'utiliser un logiciel dédié éditer le code source (IDE).
+VS Code (Visual Studio Code) ou encore PyCharm sont des IDE populaires pour Python. Ici nous installerons VS Code, mais il est encouragé de chercher l'environnement le plus adapté à chacun.
 
 ### Téléchargement et installation
 
 1. Aller sur **https://code.visualstudio.com/**
 2. Cliquer sur **"Download for Windows"**
 3. Ouvrir le fichier téléchargé et suivre les étapes de l'installeur
-   - Cocher **"Ajouter l'action 'Ouvrir avec Code' au menu contextuel"** (pratique mais optionnel)
-   - Laisser les autres options par défaut
 
 ### Installer l'extension Python
 
@@ -101,14 +102,6 @@ L'extension Python ajoute la coloration syntaxique, l'autocomplétion et l'exéc
    ou appuyer sur `Ctrl+Shift+X`
 3. Dans la barre de recherche, taper **Python**
 4. Cliquer sur **Install** sur l'extension **Python** publiée par *Microsoft*
-
-### Réglage de la taille de police (recommandé pour la démo)
-
-Pour que le code soit bien lisible lors d'un partage d'écran :
-
-1. Appuyer sur `Ctrl+,` pour ouvrir les paramètres
-2. Rechercher **Font Size**
-3. Mettre la valeur à **16**
 
 ---
 
@@ -141,7 +134,7 @@ Résultat attendu : `git version 2.x.x.windows.x`
 
 ### Choisir un emplacement
 
-Créer un dossier pour stocker vos projets Python, par exemple `C:\Projets\` ou sur le Bureau.
+Créer un dossier pour stocker vos projets Python, par exemple `C:\Projets\`
 
 ### Cloner le dépôt
 
@@ -160,6 +153,7 @@ Créer un dossier pour stocker vos projets Python, par exemple `C:\Projets\` ou 
 
 ### Ouvrir dans VS Code
 
+Vous pouvez ouvrir VS Code directement depuis la ligne de commande :
 ```
 code .
 ```
@@ -183,8 +177,11 @@ python -m venv .venv
 Un dossier `.venv` apparaît dans le projet. Il contient une copie de Python et un espace
 pour installer les bibliothèques.
 
+VS Code est également capable de créer un environnement virtuel automatiquement.
+
 ### Activation
 
+Dans le terminal intégré de VS Code (`Ctrl+ù` ou menu *Terminal → New Terminal*) :
 ```
 .venv\Scripts\activate
 ```
@@ -388,7 +385,7 @@ Trois lignes suffisent pour lancer l'application.
 | Serie_4 | 0.324 | 59.1 | Noyau très dur → f̄ maximale |
 
 **Ce qu'on observe :**
-- La **fréquence centroïde f̄** augmente avec la dureté du noyau de reconstruction
+- La **fréquence moyenne f̄** augmente avec la dureté du noyau de reconstruction
   (noyau "sharp" → résolution spatiale plus élevée → NPS décalée vers les hautes fréquences)
 - L'**amplitude** de la NPS diminue quand la dose augmente
   (plus de photons → moins de bruit quantique)
@@ -397,36 +394,13 @@ Trois lignes suffisent pour lancer l'application.
 
 ## 12. Pour aller plus loin
 
-Quelques pistes pour adapter le projet à vos besoins :
-
-**Changer le fenêtrage de l'image CT**
-Dans `app.py`, ligne `self.ax.imshow(...)`, modifier `vmin=-200, vmax=200`
-pour adapter le contraste (ex. `vmin=-500, vmax=500` pour le poumon).
-
-**Exporter les résultats en CSV**
-Ajouter dans `app.py` un bouton "Exporter" qui appelle :
-```python
-import csv
-with open("resultats_nps.csv", "w") as f:
-    writer = csv.writer(f)
-    writer.writerow(["Frequence (cy/mm)", "NPS lisse"])
-    writer.writerows(zip(resultat.frequences, resultat.nps_lisse))
-```
-
-**Tester d'autres paramètres**
-- Changer la taille des ROIs (32, 64, 128 pixels) et observer l'effet sur la courbe
-- Augmenter le nombre de coupes analysées (20 au lieu de 10)
-
-**Calculer d'autres métriques**
-- Bruit moyen (écart-type dans une ROI centrale)
-- Uniformité (écart entre ROIs)
-- CTF/MTF (nécessite un fantôme fil ou bord)
+Ce tutoriel est dérivé d'un projet plus complet de contrôle qualité des images scanner : [github.com/lammour/cq-tdm](https://github.com/lammour/cq-tdm)
 
 ---
 
 ## Références
 
 - Décision ANSM du 18/12/2025 relative au contrôle qualité des scanographes
-- Projet cq-tdm : [github.com/lammour/cq-tdm](https://github.com/lammour/cq-tdm)
 - Documentation pydicom : [pydicom.github.io](https://pydicom.github.io)
 - Documentation matplotlib : [matplotlib.org](https://matplotlib.org)
+- Documentation numpy : [numpy.org/doc/stable](https://numpy.org/doc/stable/)

@@ -5,9 +5,14 @@
 __pycache__/
 *.pyc
 
-# Images DICOM (volumineuses, à télécharger séparément)
+# Images DICOM et archives (volumineuses, à télécharger séparément)
 images/
+*.zip
 
 # Fichiers système
 .DS_Store
 Thumbs.db
+
+# Claude Code
+CLAUDE.md
+.claude/
