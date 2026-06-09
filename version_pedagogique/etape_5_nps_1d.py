@@ -66,7 +66,7 @@ def placer_rois(image, centre_l, centre_c, taille_roi=64):
     return [(l, c) for l, c in positions if demi <= l < h - demi and demi <= c < w - demi]
 
 
-def detrendre(roi):
+def detrending(roi):
     n, m = roi.shape
     X, Y = np.meshgrid(np.arange(m), np.arange(n))
     A = np.column_stack([
@@ -81,7 +81,7 @@ def detrendre(roi):
 
 def nps_2d_roi(roi, pixel_mm):
     n, m  = roi.shape
-    fft   = np.fft.fftshift(np.fft.fft2(detrendre(roi)))
+    fft   = np.fft.fftshift(np.fft.fft2(detrending(roi)))
     return (np.abs(fft)**2) * pixel_mm**2 / (n * m)
 
 

@@ -51,7 +51,7 @@ def trouver_centre(image):
     return int(np.mean(lignes)), int(np.mean(cols))
 
 
-def detrendre(roi):
+def detrending(roi):
     """
     Soustrait un polynôme 2D du 2ème degré ajusté sur la ROI.
     Cela élimine les tendances basse fréquence sans toucher au bruit.
@@ -103,7 +103,7 @@ demi   = taille // 2
 l_roi, c_roi = centre_l - r, centre_c   # position de la ROI "haut"
 roi_brute = image[l_roi - demi:l_roi + demi, c_roi - demi:c_roi + demi].copy()
 
-roi_dt, fond = detrendre(roi_brute)
+roi_dt, fond = detrending(roi_brute)
 nps2d, freq  = calculer_nps_2d(roi_dt, pixel_mm)
 
 print("── ROI 'haut' (cardinale nord) ────────────────")
