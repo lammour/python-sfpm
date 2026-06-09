@@ -145,11 +145,11 @@ Créer un dossier pour stocker vos projets Python, par exemple `C:\Projets\`
    ```
 2. Télécharger le projet avec Git :
    ```
-   git clone https://github.com/lammour/python-sfpm.git
+   git clone https://github.com/lammour/webinaire-sfpm-python-imagerie-2026-06-09.git
    ```
 3. Se déplacer dans le dossier téléchargé :
    ```
-   cd python-sfpm
+   cd webinaire-sfpm-python-imagerie-2026-06-09
    ```
 
 ### Ouvrir dans VS Code
